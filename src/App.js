@@ -1,25 +1,44 @@
-import logo from './logo.svg';
+
 import './App.css';
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Link
+} from "react-router-dom";
+import Users from "./components/Users";
+import Posts from "./components/Posts";
+import Comments from "./components/Comments";
+import Cars from "./components/Cars";
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+      <Router>
+        <div className="App">
+            <div className={'header'}>
+                <Link className="headerLink" to={'/'}>Home page</Link>
+
+                <Link className="headerLink" to={'/users'}>Users page</Link>
+
+                <Link className="headerLink" to={'/posts'}>Posts page</Link>
+
+                <Link className="headerLink" to={'/comments'}>Comments page</Link>
+
+                <Link className="headerLink" to={'/cars'}>Cars page</Link>
+            </div>
+             <div className={'renderArea'}>
+                 <Route path={'/users'} render={(props)=> {
+                     return <Users/>
+                 }}/>
+                 <Route path={'/posts'} component={Posts}/>
+                 <Route path={'/comments'} component={Comments}/>
+                 <Route path={'/cars'} component={Cars}/>
+
+             </div>
+        </div>
+      </Router>
+
+  )
 }
 
 export default App;
