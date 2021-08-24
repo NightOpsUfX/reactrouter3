@@ -39,5 +39,19 @@ const deleteCarService = (carId) => {
         }).then((response) => response.json())
 }
 
-export {getUsers, getPosts, getComments, getCars, saveCarService, deleteCarService}
+const editCarService = (formState) => {
+
+    // console.log(formState)
+
+    return fetch('http://91.201.233.14/api/v1/cars/' + formState.id,
+        {
+            method: 'PATCH',
+            body: JSON.stringify(formState),
+            headers: {
+                'Content-type': 'application/json; charset=UTF-8',
+            },
+        }).then((response) => response.json())
+}
+
+export {getUsers, getPosts, getComments, getCars, saveCarService, deleteCarService, editCarService}
 

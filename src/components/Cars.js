@@ -1,31 +1,58 @@
 import {useState, useEffect} from "react";
-import {getCars, saveCarService, deleteCarService} from "../services/services";
+import {getCars, saveCarService, deleteCarService, editCarService} from "../services/services";
 import Car from "./Car";
 
 export default function Cars () {
     //first render
     let [cars, setCars] = useState([])
-    // console.log(cars)
 
     useEffect(() => {
         getCars().then(value => setCars([...value]))
     },[])
     //end first render
 
-    // add car
+    // form Input Change
     let [formState, setFormstate] = useState({model:'', price:'', year:''});
 
     let formInputChange = (e) => {
-        // console.log(e.target.name)
         setFormstate({...formState, [e.target.name]: e.target.value})
     }
+    // end form Input Change
 
-    let saveCar = (e) => {
-        e.preventDefault();
-        saveCarService(formState)
-            .then(newCar => setCars([...cars, newCar]))
+
+
+    //  edit car to form
+    let carToForm = (carId) => {
+        let editedCar = cars.find(car => car.id == carId)
+        setFormstate(editedCar)
     }
-    // end add car
+    // end edit car to form
+
+    // car change
+    function carSaveOrEdit (e) {
+        e.preventDefault()
+
+        //save new car
+        if (formState.id === undefined) {
+            let saveCar = (e) => {
+                e.preventDefault();
+                saveCarService(formState)
+                    .then(newCar => setCars([...cars, newCar]))
+            }
+            saveCar(e)
+        }
+        // edit existing car
+        else {
+            let editCar = (e) => {
+                e.preventDefault()
+                editCarService(formState)
+                    .then(value => cars.find(car => car.id == value.id))
+                    .then(value => console.log(value))
+            }
+            editCar(e)
+        }
+    }
+    // end car change
 
     //delete car
      let deleteCar = (carId) => {
@@ -39,7 +66,7 @@ export default function Cars () {
         // <div className={'carsMainWrapper'}> -- bug ???
         <div>
             <div className="formWrapper">
-                <form onSubmit={saveCar}>
+                <form onSubmit={carSaveOrEdit}>
                     <input type="text" name={'model'} value={formState.model} placeholder={'Car model'} onChange={formInputChange}/>
                     <input type="number" name={'price'} value={formState.price} placeholder={'Price'} onChange={formInputChange}/>
                     <input type="number" name={'year'} value={formState.year} placeholder={'Year'} onChange={formInputChange}/>
@@ -48,7 +75,7 @@ export default function Cars () {
             </div>
             <div className={'carsWrapper contentItemsWrapper'}>
                 {
-                    cars.map(value => <Car car={value} key={value.id} deleteCar={deleteCar}/>)
+                    cars.map(value => <Car car={value} key={value.id} deleteCar={deleteCar} carToForm={carToForm}/>)
                 }
             </div>
         </div>

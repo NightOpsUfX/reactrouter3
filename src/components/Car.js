@@ -1,5 +1,5 @@
-export default function Car ({car, deleteCar}) {
-    console.log(car)
+export default function Car ({car, deleteCar, carToForm}) {
+    // console.log(car)
     //
     let carId = car.id
 
@@ -7,6 +7,10 @@ export default function Car ({car, deleteCar}) {
         // console.log(car.id)
         deleteCar(carId);
     };
+
+    let onClickEditCar = () => {
+        carToForm(carId)
+    }
     //
     return (
         <div className={'carItem contentItem'}>
@@ -16,7 +20,7 @@ export default function Car ({car, deleteCar}) {
                 <p>Car year: {car.year}</p>
             </div>
             <div>
-                <button >Edit car</button>
+                <button onClick={onClickEditCar}>Edit car</button>
                 <button onClick={onClickDeleteCar}>Delete car</button>
             </div>
             <br/>
