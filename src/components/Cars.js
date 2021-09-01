@@ -19,8 +19,6 @@ export default function Cars () {
     }
     // end form Input Change
 
-
-
     //  edit car to form
     let carToForm = (carId) => {
         let editedCar = cars.find(car => car.id == carId)
@@ -46,8 +44,12 @@ export default function Cars () {
             let editCar = (e) => {
                 e.preventDefault()
                 editCarService(formState)
-                    .then(value => cars.find(car => car.id == value.id))
-                    .then(value => console.log(value))
+                    .then(value => {
+                       let find = cars.find(car => car.id === value.id)
+                        Object.assign(find, value)
+                        // find.model = value.model
+                        setCars([...cars])
+                    })
             }
             editCar(e)
         }
@@ -63,8 +65,7 @@ export default function Cars () {
     //end delete car
 
     return (
-        // <div className={'carsMainWrapper'}> -- bug ???
-        <div>
+        <div className={'carsMainWrapper'}>
             <div className="formWrapper">
                 <form onSubmit={carSaveOrEdit}>
                     <input type="text" name={'model'} value={formState.model} placeholder={'Car model'} onChange={formInputChange}/>

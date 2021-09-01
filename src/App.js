@@ -11,6 +11,8 @@ import Posts from "./components/Posts";
 import Comments from "./components/Comments";
 import Cars from "./components/Cars";
 
+// nested routs
+
 function App() {
   return (
       <Router>
