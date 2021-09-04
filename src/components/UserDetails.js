@@ -1,5 +1,5 @@
 export default function UserDetails (props) {
-    console.log(props)
+    // console.log(props)
     let user = props.location.state
 
     return(
